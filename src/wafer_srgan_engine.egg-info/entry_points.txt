@@ -1,0 +1,4 @@
+[console_scripts]
+wafer-srgan-infer = wafer_srgan.cli:infer_entry
+wafer-srgan-pipeline = wafer_srgan.cli:pipeline_entry
+wafer-srgan-train = wafer_srgan.cli:train_entry

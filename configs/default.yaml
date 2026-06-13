@@ -1,0 +1,113 @@
+defaults:
+  - _self_
+
+pipeline:
+  name: wafer-srgan-pipeline
+  scale_factor: 4
+  device: cuda
+  seed: 42
+
+model:
+  generator:
+    in_channels: 3
+    out_channels: 3
+    num_residual_blocks: 16
+    num_features: 64
+    upscale_factor: 4
+    residual_scaling: 0.2
+  discriminator:
+    in_channels: 3
+    num_features: 64
+    num_layers: 8
+  vgg:
+    layer_index: 36
+    use_input_norm: true
+    range_norm: false
+
+training:
+  num_epochs: 500
+  batch_size: 16
+  num_workers: 8
+  pin_memory: true
+
+  optimizer:
+    generator:
+      type: adam
+      lr: 1.0e-4
+      betas: [0.9, 0.999]
+      weight_decay: 0.0
+    discriminator:
+      type: adam
+      lr: 1.0e-4
+      betas: [0.9, 0.999]
+      weight_decay: 0.0
+
+  scheduler:
+    type: step
+    step_size: 200
+    gamma: 0.5
+
+  loss:
+    pixel_weight: 1.0
+    content_weight: 1.0
+    adversarial_weight: 0.005
+    tv_weight: 0.0
+
+  checkpoint:
+    save_interval: 50
+    save_best: true
+    keep_last: 3
+
+dataset:
+  train:
+    lr_dir: null
+    hr_dir: null
+    patch_size: 96
+    augment: true
+  val:
+    lr_dir: null
+    hr_dir: null
+    patch_size: 96
+
+sliding_window:
+  tile_size: 512
+  overlap: 64
+  min_overlap: 32
+  max_tiles_per_batch: 8
+
+stitching:
+  blend_mode: gaussian
+  gaussian_sigma: 16.0
+  feather_width: 32
+
+triton:
+  model_name: srgan_generator
+  model_version: 1
+  grpc_url: "localhost:8001"
+  http_url: "localhost:8000"
+  protocol: grpc
+  timeout: 30.0
+  max_concurrent_requests: 16
+
+server:
+  host: "0.0.0.0"
+  port: 8501
+  max_upload_size_mb: 4096
+  stream_chunk_size: 65536
+
+ome_tiff:
+  pixel_type: uint16
+  channel_names: ["R", "G", "B"]
+  physical_size_x: 0.1
+  physical_size_y: 0.1
+  physical_size_x_unit: "um"
+  physical_size_y_unit: "um"
+  compression: zstd
+  tile_size: 512
+
+edge_postprocess:
+  canny_threshold1: 50.0
+  canny_threshold2: 150.0
+  sobel_ksize: 3
+  morph_kernel_size: 3
+  morph_iterations: 2

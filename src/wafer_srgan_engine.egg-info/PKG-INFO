@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: wafer-srgan-engine
+Version: 0.1.0
+Summary: Semiconductor wafer AOI super-resolution defect segmentation pipeline powered by SRGAN + Triton Inference Server
+License: MIT
+Requires-Python: >=3.10
+Requires-Dist: torch>=2.1.0
+Requires-Dist: torchvision>=0.16.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: opencv-python-headless>=4.8.0
+Requires-Dist: Pillow>=10.0.0
+Requires-Dist: scikit-image>=0.21.0
+Requires-Dist: scipy>=1.11.0
+Requires-Dist: tifffile>=2023.8.0
+Requires-Dist: tritonclient[grpc]>=2.40.0
+Requires-Dist: grpcio>=1.58.0
+Requires-Dist: protobuf>=4.24.0
+Requires-Dist: flask>=3.0.0
+Requires-Dist: pyyaml>=6.0.0
+Requires-Dist: tqdm>=4.66.0
+Requires-Dist: omegaconf>=2.3.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
