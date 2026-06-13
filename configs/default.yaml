@@ -137,3 +137,55 @@ edge_postprocess:
   sobel_ksize: 3
   morph_kernel_size: 3
   morph_iterations: 2
+
+defect_analysis:
+  enable: true
+  enable_segmentation: true
+  enable_tensor_analysis: true
+  enable_spatial_attention: true
+  enable_vector_storage: true
+  min_defect_area: 16
+  attention_radius: 100.0
+  store_only_significant: true
+  significance_threshold: 0.6
+
+  segmentor:
+    num_classes: 2
+    base_filters: 16
+    threshold: 0.5
+    min_defect_area: 16
+    tile_size: 1024
+    overlap: 64
+    checkpoint_path: ""
+
+  classifier:
+    scratch:
+      min_aspect_ratio: 5.0
+      min_length_px: 50.0
+      min_coherence: 0.4
+      max_circularity: 0.3
+      min_roughness: 5.0
+    particle:
+      min_circularity: 0.55
+      max_aspect_ratio: 2.5
+      min_solidity: 0.65
+      max_roughness: 15.0
+    oxide_peel:
+      min_circularity: 0.4
+      max_circularity: 0.8
+      min_solidity: 0.5
+      max_solidity: 0.85
+      max_roughness: 30.0
+
+  tensor:
+    sobel_ksize: 3
+    gaussian_sigma: 2.0
+    window_size: 15
+
+  vector_store:
+    collection_name: wafer_defects
+    host: localhost
+    port: 19530
+    vector_dim: 26
+    auto_create: true
+    use_mock_if_unavailable: true
