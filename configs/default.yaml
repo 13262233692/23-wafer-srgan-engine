@@ -80,6 +80,20 @@ stitching:
   gaussian_sigma: 16.0
   feather_width: 32
 
+memory_management:
+  enable_memory_pool: true
+  enable_gpu_monitor: true
+  memory_pool_max_buffers: 64
+  memory_pool_reclaim_threshold: 0.85
+  monitor_check_interval: 2.0
+  monitor_warning_threshold: 0.75
+  monitor_critical_threshold: 0.90
+  monitor_oom_threshold: 0.95
+  auto_reclaim_on_warning: true
+  stitcher_chunk_size: 16
+  auto_cleanup_interval: 100
+  use_gpu_stitching: true
+
 triton:
   model_name: srgan_generator
   model_version: 1
@@ -88,6 +102,18 @@ triton:
   protocol: grpc
   timeout: 30.0
   max_concurrent_requests: 16
+  enable_memory_pool: true
+  memory_pool_max_buffers: 64
+  memory_pool_reclaim_threshold: 0.85
+  auto_cleanup_interval: 100
+
+stitching:
+  blend_mode: gaussian
+  gaussian_sigma: 16.0
+  feather_width: 32
+  use_gpu: true
+  chunk_size: 16
+  memory_pool_max_buffers: 32
 
 server:
   host: "0.0.0.0"
